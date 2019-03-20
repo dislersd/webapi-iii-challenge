@@ -53,4 +53,26 @@ router.put("/users/:id", async (req, res) => {
   }
 });
 
+router.delete('/users/:id', async (req, res) => {
+  try {
+    const {id} = req.params;
+    const remove = await userDb.remove(id);
+    res.status(200).json({ message: 'successfully deleted'})
+  } catch (error) {
+  res.status(500).json({ message: 'error deleting'})
+  }
+})
+
+router.get('/user-posts/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userPosts = await userDb.getUserPosts(id);
+    res.status(200).json(userPosts)
+  } catch (error) {
+    res.status(500).json({
+      message: 'error getting user posts'
+    })
+  }
+})
+
 module.exports = router;
